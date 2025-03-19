@@ -10,7 +10,7 @@ app.use(express.json());
 
 // Rota de teste para verificar a conexão e buscar dados
 app.get("/api/teste", (req, res) => {
-  db.query("SELECT * FROM usuarios", (err, results) => {
+  db.query("SELECT * FROM tbPessoas", (err, results) => {
     if (err) {
       console.error("Erro ao buscar dados:", err);
       return res.status(500).json({ error: "Erro no banco de dados" });
