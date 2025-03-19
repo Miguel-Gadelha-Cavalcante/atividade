@@ -1,5 +1,5 @@
-// db.js - Configuração do banco de dados
-const mysql = require("mysql");
+// config/db.js
+const mysql = require("mysql2");
 require("dotenv").config();
 
 const db = mysql.createConnection({
