@@ -19,5 +19,8 @@
   "homepage": "https://github.com/Miguel-Gadelha-Cavalcante/atividade#readme",
   "devDependencies": {
     "vercel": "^41.4.1"
+  },
+  "dependencies": {
+    "mysql2": "^3.14.0"
   }
 }
