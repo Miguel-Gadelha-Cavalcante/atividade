@@ -1,11 +1,11 @@
 const mysql = require("mysql2/promise");
 
 const dbConfig = {
-  host: "3tjuk.h.filess.io",
-  user: "inventarioImoveisNovos_goosebook",
-  password: "a2fc6313261f8fbcc16e5b2b7f1f024f1d3a99b5",
-  database: "inventarioImoveisNovos_goosebook",
-  port: 61002, // Porta explícita
+  host: "syvus.h.filess.io",
+  user: "cadlog_piethypipe",
+  password: "1add0f1ff1768b23f749db061579f51e4edd4d76",
+  database: "cadlog_piethypipe",
+  port: 3307, // Porta explícita, se der merda, troque a porta pela antiga com Ctrl+z
   ssl: {
     rejectUnauthorized: false, // Geralmente necessário em serviços cloud
   },

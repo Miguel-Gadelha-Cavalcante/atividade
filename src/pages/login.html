@@ -4,28 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro - Sistema de Imóveis</title>
+    <title>Login - Sistema de Imóveis</title>
     <style>
+        /* Estilos consistentes com a homepage */
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
-            min-height: 100vh;
             position: relative;
-        }
-
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://planner5d.com/blog/content/images/2023/06/interior-moderno-capa.jpg');
-            background-size: cover;
-            background-position: center;
-            background-color: rgba(0, 0, 0, 0.6);
-            background-blend-mode: multiply;
-            z-index: -1;
+            min-height: 100vh;
+            overflow: hidden;
         }
 
         header {
@@ -63,20 +50,37 @@
             color: #3498db;
         }
 
-        .register-container {
-            background: rgba(255, 255, 255, 0.96);
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://planner5d.com/blog/content/images/2023/06/interior-moderno-capa.jpg');
+            background-size: cover;
+            background-position: center;
+            background-color: rgba(0, 0, 0, 0.6);
+            background-blend-mode: multiply;
+            filter: brightness(0.8);
+            z-index: -1;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
             padding: 40px;
             border-radius: 15px;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 500px;
+            width: 100%;
+            max-width: 400px;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
 
-        .register-form h2 {
+        /* Mantenha o restante do CSS do login igual */
+        .login-form h2 {
             color: #2c3e50;
             margin-bottom: 30px;
             text-align: center;
@@ -92,10 +96,9 @@
             border: 1px solid #ddd;
             border-radius: 6px;
             font-size: 16px;
-            margin-top: 5px;
         }
 
-        .register-button {
+        .login-button {
             width: 100%;
             padding: 12px;
             background-color: #3498db;
@@ -105,33 +108,39 @@
             cursor: pointer;
             font-size: 16px;
             transition: background-color 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
-        .register-button:hover {
+        .login-button:hover {
             background-color: #2980b9;
         }
 
-        .login-link {
-            text-align: center;
+        .register-link {
             margin-top: 25px;
-            font-size: 0.95rem;
+            text-align: center;
+            font-size: 0.9rem;
         }
 
-        .login-link a {
-            color: #3498db;
+        .register-link a {
+            color: #666;
             text-decoration: none;
-            font-weight: 600;
             transition: all 0.3s;
         }
 
-        .login-link a:hover {
+        .register-link span {
+            color: #3498db;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        .register-link a:hover {
+            color: #444;
             text-decoration: underline;
-            color: #1a5f8c;
+        }
+
+        .register-link span:hover {
+            color: #2980b9;
         }
     </style>
-
 </head>
 
 <body>
@@ -139,57 +148,59 @@
         <div class="logo">IMVN<span style="color: #3498db;">.</span></div>
         <nav>
             <ul>
-                <li><a href="/index.html">Home</a></li>
 
+                <li><a href="/index.html">Home</a></li>
             </ul>
         </nav>
     </header>
-    <div class="register-container">
-        <form class="register-form" id="cadastroForm">
-            <h2>Criar Nova Conta</h2>
+    <div class="login-container">
+        <form class="login-form">
+            <h2>Login</h2>
             <div class="form-group">
-                <label>Nome Completo</label>
-                <input type="text" placeholder="Digite seu nome" required>
+                <input type="email" placeholder="E-mail" required>
             </div>
             <div class="form-group">
-                <label>E-mail</label>
-                <input type="email" placeholder="exemplo@empresa.com" required>
+                <input type="password" placeholder="Senha" required>
             </div>
-            <div class="form-group">
-                <label>Senha</label>
-                <input type="password" placeholder="Crie uma senha segura" required>
-            </div>
-            <button type="submit" class="register-button">Criar Conta</button>
-            <div class="login-link">
-                <a href="login.html">Já possui conta? Faça login</a>
+            <button type="submit" class="login-button">Entrar</button>
+            <div class="register-link">
+                <a href="cadastro.html">Sem cadastro? </a>
             </div>
         </form>
     </div>
 </body>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const form = document.getElementById('cadastroForm');
+        const form = document.querySelector('.login-form');
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const formData = {
-                nome: form.querySelector('input[type="text"]').value,
                 email: form.querySelector('input[type="email"]').value,
                 senha: form.querySelector('input[type="password"]').value
             };
 
             try {
-                const response = await fetch('http://localhost:3000/cadastro', {
+                const response = await fetch('http://localhost:3000/login', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
                     body: JSON.stringify(formData)
                 });
 
-                if (!response.ok) throw new Error('Falha no cadastro');
+                const data = await response.json();
 
-                alert('Cadastro realizado!');
-                window.location.href = 'login.html';
+                if (!response.ok) {
+                    throw new Error(data.error || 'Erro no login');
+                }
+
+                // Armazena dados do usuário
+                localStorage.setItem('usuario', JSON.stringify(data.usuario));
+
+                // Redireciona para homepage
+                window.location.href = 'index.html';
 
             } catch (error) {
                 alert(error.message);
