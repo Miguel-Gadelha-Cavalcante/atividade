@@ -157,10 +157,10 @@
         <form class="login-form">
             <h2>Login</h2>
             <div class="form-group">
-                <input type="email" placeholder="E-mail" required>
+                <input type="email" id="login" placeholder="E-mail" required>
             </div>
             <div class="form-group">
-                <input type="password" placeholder="Senha" required>
+                <input type="password" id="senha" placeholder="Senha" required>
             </div>
             <button type="submit" class="login-button">Entrar</button>
             <div class="register-link">
@@ -176,34 +176,29 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const formData = {
-                email: form.querySelector('input[type="email"]').value,
-                senha: form.querySelector('input[type="password"]').value
-            };
+            const login = document.getElementById('login').value;
+            const senha = document.getElementById('senha').value;
 
             try {
-                const response = await fetch('http://localhost:3000/login', {
+                const response = await fetch('/api/login', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData)
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ login, senha })
                 });
 
                 const data = await response.json();
 
                 if (!response.ok) {
-                    throw new Error(data.error || 'Erro no login');
+                    alert("❌ " + data.message);
+                    return;
                 }
 
-                // Armazena dados do usuário
-                localStorage.setItem('usuario', JSON.stringify(data.usuario));
-
-                // Redireciona para homepage
+                alert("✅ Login bem-sucedido! Bem-vindo(a), " + data.nome);
+                localStorage.setItem('usuario', JSON.stringify(data));
                 window.location.href = '/index.html';
-
             } catch (error) {
-                alert(error.message);
+                alert("❌ Erro ao conectar com o servidor.");
+                console.error(error);
             }
         });
     });
