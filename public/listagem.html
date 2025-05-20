@@ -182,14 +182,15 @@
                 }
 
                 data.data.forEach(registro => {
-                    const row = document.createElement('tr');
+                    const row = document.createElement('tr'); // ← Crie a linha primeiro
                     row.innerHTML = `
-                        <td>${registro.usuario_id}</td>
-                        <td>${registro.nome}</td>
-                        <td>${registro.login}</td>
-                        <td>${new Date(registro.atualizado_em).toLocaleString()}</td>
+                        <td><input type="checkbox" data-id="${registro.usuario_id}"></td>
+                         <td>${registro.usuario_id}</td>
+                         <td>${registro.nome}</td>
+                         <td>${registro.login}</td>
+                         <td>${new Date(registro.atualizado_em).toLocaleString()}</td>
                     `;
-                    tbody.appendChild(row);
+                    tbody.appendChild(row); // ← Adicione ao DOM depois
                 });
                 document.getElementById('selecionarTodos').addEventListener('click', (e) => {
                     const checkboxes = document.querySelectorAll('input[type="checkbox"]:not(#selecionarTodos)');
