@@ -181,22 +181,25 @@
                     return;
                 }
 
+                // Criação das linhas
                 data.data.forEach(registro => {
-                    const row = document.createElement('tr'); // ← Crie a linha primeiro
+                    const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td><input type="checkbox" data-id="${registro.usuario_id}"></td>
-                         <td>${registro.usuario_id}</td>
-                         <td>${registro.nome}</td>
-                         <td>${registro.login}</td>
-                         <td>${new Date(registro.atualizado_em).toLocaleString()}</td>
-                    `;
-                    tbody.appendChild(row); // ← Adicione ao DOM depois
+                <td><input type="checkbox" data-id="${registro.usuario_id}"></td>
+                <td>${registro.usuario_id}</td>
+                <td>${registro.nome}</td>
+                <td>${registro.login}</td>
+                <td>${new Date(registro.atualizado_em).toLocaleString()}</td>
+            `;
+                    tbody.appendChild(row);
                 });
+
+                // Configuração dos eventos
                 document.getElementById('selecionarTodos').addEventListener('click', (e) => {
                     const checkboxes = document.querySelectorAll('input[type="checkbox"]:not(#selecionarTodos)');
                     checkboxes.forEach(checkbox => checkbox.checked = e.target.checked);
                 });
-                // Função de exclusão
+
                 document.getElementById('btnExcluir').addEventListener('click', async () => {
                     const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked:not(#selecionarTodos)');
 
@@ -234,22 +237,11 @@
                     }
                 });
 
-                // Modifique a criação das linhas para incluir checkbox
-                tbody.appendChild(row);
-                row.innerHTML = `
-                <td><input type="checkbox" data-id="${registro.usuario_id}"></td>
-                <td>${registro.usuario_id}</td>
-                <td>${registro.nome}</td>
-                <td>${registro.login}</td>
-                <td>${new Date(registro.atualizado_em).toLocaleString()}</td>
-                `;
-
                 loading.style.display = 'none';
                 tabela.style.display = 'table';
 
             } catch (error) {
-                document.getElementById('loading').innerHTML =
-                    `Erro ao carregar dados: ${error.message}`;
+                document.getElementById('loading').innerHTML = `Erro ao carregar dados: ${error.message}`;
                 console.error('Erro:', error);
             }
         });
