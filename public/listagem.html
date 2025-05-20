@@ -131,7 +131,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             try {
-                const response = await fetch('http://localhost:3000/listar');
+                const response = await fetch('/api/listar');
                 const data = await response.json();
 
                 if (!data.success) {
