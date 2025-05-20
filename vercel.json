@@ -5,10 +5,10 @@
   ],
   "headers": [
     {
-      "source": "/api/(.*)",
+      "source": "/api/listar",
       "headers": [
         { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Access-Control-Allow-Methods", "value": "GET" }
+        { "key": "Content-Type", "value": "application/json" }
       ]
     }
   ]
