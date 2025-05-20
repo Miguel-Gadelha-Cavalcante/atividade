@@ -99,6 +99,37 @@
             padding: 20px;
             color: #666;
         }
+
+        .header-tabela {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .excluir-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .excluir-button:hover {
+            background-color: #bb2d3b;
+        }
+
+        .excluir-button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+
+        input[type="checkbox"] {
+            cursor: pointer;
+            transform: scale(1.2);
+        }
     </style>
 </head>
 
@@ -114,10 +145,12 @@
 
     <div class="container">
         <h1>Cadastros Registrados</h1>
+        <button id="btnExcluir" class="excluir-button">Excluir Selecionados</button>
         <div id="loading" class="loading">Carregando dados...</div>
         <table id="tabela-dados" style="display: none;">
             <thead>
                 <tr>
+                    <th style="width: 30px;"><input type="checkbox" id="selecionarTodos"></th>
                     <th>ID</th>
                     <th>Nome</th>
                     <th>Login</th>
@@ -129,6 +162,7 @@
     </div>
 
     <script>
+
         document.addEventListener('DOMContentLoaded', async () => {
             try {
                 const response = await fetch('/api/listar');
@@ -157,6 +191,57 @@
                     `;
                     tbody.appendChild(row);
                 });
+                document.getElementById('selecionarTodos').addEventListener('click', (e) => {
+                    const checkboxes = document.querySelectorAll('input[type="checkbox"]:not(#selecionarTodos)');
+                    checkboxes.forEach(checkbox => checkbox.checked = e.target.checked);
+                });
+                // Função de exclusão
+                document.getElementById('btnExcluir').addEventListener('click', async () => {
+                    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked:not(#selecionarTodos)');
+
+                    if (checkboxes.length === 0) {
+                        alert('Selecione pelo menos um registro para excluir!');
+                        return;
+                    }
+
+                    if (!confirm(`Deseja realmente excluir ${checkboxes.length} registro(s)?`)) return;
+
+                    try {
+                        const ids = Array.from(checkboxes).map(checkbox => checkbox.dataset.id);
+
+                        const response = await fetch('/api/excluir', {
+                            method: 'DELETE',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ ids })
+                        });
+
+                        const result = await response.json();
+
+                        if (result.success) {
+                            // Remove as linvisíveis
+                            checkboxes.forEach(checkbox => {
+                                const row = checkbox.closest('tr');
+                                row.parentNode.removeChild(row);
+                            });
+                            alert('Registros excluídos com sucesso!');
+                        } else {
+                            throw new Error(result.error || 'Erro na exclusão');
+                        }
+                    } catch (error) {
+                        alert(`Erro: ${error.message}`);
+                        console.error(error);
+                    }
+                });
+
+                // Modifique a criação das linhas para incluir checkbox
+                tbody.appendChild(row);
+                row.innerHTML = `
+                <td><input type="checkbox" data-id="${registro.usuario_id}"></td>
+                <td>${registro.usuario_id}</td>
+                <td>${registro.nome}</td>
+                <td>${registro.login}</td>
+                <td>${new Date(registro.atualizado_em).toLocaleString()}</td>
+                `;
 
                 loading.style.display = 'none';
                 tabela.style.display = 'table';

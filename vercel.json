@@ -1,13 +1,15 @@
 {
   "rewrites": [
     { "source": "/", "destination": "/src/pages/index.html" },
-    { "source": "/api/listar", "destination": "/api/listar.js" }
+    { "source": "/api/listar", "destination": "/api/listar.js" },
+    { "source": "/api/excluir", "destination": "/api/excluir.js" }
   ],
   "headers": [
     {
-      "source": "/api/listar",
+      "source": "/api/(.*)",
       "headers": [
         { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET,POST,DELETE" },
         { "key": "Content-Type", "value": "application/json" }
       ]
     }
