@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <title>Listagem de Cadastros</title>
     <style>
         header {
@@ -130,6 +131,25 @@
             cursor: pointer;
             transform: scale(1.2);
         }
+
+        .botoes-acao {
+            display: flex;
+            gap: 10px;
+        }
+
+        .cadastrar-button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .cadastrar-button:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 
@@ -146,6 +166,9 @@
     <div class="container">
         <h1>Cadastros Registrados</h1>
         <button id="btnExcluir" class="excluir-button">Excluir Selecionados</button>
+        <button id="btnCadastrar" class="cadastrar-button">
+            <i class="fas fa-plus"></i> Novo Cadastro
+        </button>
         <div id="loading" class="loading">Carregando dados...</div>
         <table id="tabela-dados" style="display: none;">
             <thead>
@@ -203,6 +226,9 @@
                 document.getElementById('btnExcluir').addEventListener('click', async () => {
                     const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked:not(#selecionarTodos)');
 
+                    document.getElementById('btnCadastrar').addEventListener('click', () => {
+                        window.location.href = 'cadastro.html';
+                    });
                     if (checkboxes.length === 0) {
                         alert('Selecione pelo menos um registro para excluir!');
                         return;
