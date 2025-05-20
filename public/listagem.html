@@ -223,12 +223,14 @@
                     checkboxes.forEach(checkbox => checkbox.checked = e.target.checked);
                 });
 
+                document.getElementById('btnCadastrar').addEventListener('click', () => {
+                    window.location.href = 'cadastro.html';
+                });
+
                 document.getElementById('btnExcluir').addEventListener('click', async () => {
                     const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked:not(#selecionarTodos)');
 
-                    document.getElementById('btnCadastrar').addEventListener('click', () => {
-                        window.location.href = 'cadastro.html';
-                    });
+
                     if (checkboxes.length === 0) {
                         alert('Selecione pelo menos um registro para excluir!');
                         return;
