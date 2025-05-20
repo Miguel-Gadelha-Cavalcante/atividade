@@ -20,7 +20,12 @@ const dbConfig = {
 const pool = mysql.createPool(dbConfig);
 
 // Middlewares
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://127.0.0.1:5500", "https://atividade-inky.vercel.app/"],
+    methods: ["GET", "POST"],
+  })
+);
 app.use(express.json());
 
 // Rota de Cadastro Simples
@@ -43,6 +48,26 @@ app.post("/cadastro", async (req, res) => {
 });
 
 // Rota de Teste
+app.get("/listar", async (req, res) => {
+  try {
+    const [registros] = await pool.query(
+      `SELECT usuario_id, nome, login, atualizado_em 
+          FROM seguranca_tbUsuarios 
+          ORDER BY usuario_id DESC`
+    );
+
+    res.json({
+      success: true,
+      data: registros,
+    });
+  } catch (error) {
+    console.error("Erro na listagem:", error);
+    res.status(500).json({
+      success: false,
+      error: "Erro ao buscar registros",
+    });
+  }
+});
 app.get("/", (req, res) => {
   res.send("Servidor operacional");
 });
