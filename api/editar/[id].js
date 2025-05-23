@@ -6,7 +6,12 @@ export default async (req, res) => {
 
   try {
     const connection = await mysql.createConnection({
-      // ... mesma configuração do banco
+      host: "syvus.h.filess.io",
+      user: "cadlog_piethypipe",
+      password: "1add0f1ff1768b23f749db061579f51e4edd4d76",
+      database: "cadlog_piethypipe",
+      port: 3307,
+      ssl: { rejectUnauthorized: false },
     });
 
     await connection.query(
