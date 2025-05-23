@@ -7,6 +7,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <title>Listagem de Cadastros</title>
     <style>
+        .edit-button {
+            background-color: #ffc107;
+            color: black;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .edit-button:hover {
+            background-color: #e0a800;
+        }
+
+        .edit-button i {
+            font-size: 14px;
+        }
+
         header {
             display: flex;
             justify-content: space-between;
@@ -178,6 +199,7 @@
                     <th>Nome</th>
                     <th>Login</th>
                     <th>Última Atualização</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody id="corpo-tabela"></tbody>
@@ -213,6 +235,11 @@
                 <td>${registro.nome}</td>
                 <td>${registro.login}</td>
                 <td>${new Date(registro.atualizado_em).toLocaleString()}</td>
+                <td>
+                    <button class="edit-button" data-id="${registro.usuario_id}">
+                        <i class="fas fa-edit"></i> Editar
+                    </button>
+                </td>
             `;
                     tbody.appendChild(row);
                 });
@@ -272,7 +299,16 @@
                 document.getElementById('loading').innerHTML = `Erro ao carregar dados: ${error.message}`;
                 console.error('Erro:', error);
             }
+            document.querySelectorAll('.edit-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const usuarioId = e.target.closest('button').dataset.id;
+                    window.location.href = `editar.html?id=${usuarioId}`;
+                });
+            });
+
         });
+
+
     </script>
 </body>
 
